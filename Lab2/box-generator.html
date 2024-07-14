@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+    <title>Box Generator</title>
+    <style type="text/css">
+        div {
+            width: 100px;
+            height: 100px;
+            margin: 10px 0;
+        }
+        .red {
+            background-color: red;
+        }
+        .blue {
+            background-color: blue;
+        }
+        .green {
+            background-color: green;
+        }
+        .orange {
+            background-color: orange;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div class="box red"></div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var colorArr = ["blue", "green", "orange", "red"];
+            var colorIndex = 0;
+
+            function getNextColor() {
+                var color = colorArr[colorIndex % colorArr.length];
+                colorIndex++;
+                return color;
+            }
+
+            // Event handlers for the box
+            $("#container").on({
+                mouseover: function(){
+                    var originalColor = $(this).css("background-color");
+                    $(this).data("original-color", originalColor);
+                    var hoverColor = getNextColor();
+                    $(this).css("background-color", hoverColor);
+                },
+                mouseout: function(){
+                    var originalColor = $(this).data("original-color");
+                    $(this).css("background-color", originalColor);
+                },
+                click: function(){
+                    var hoverColor = $(this).css("background-color");
+                    var newBox = $("<div class='box'></div>").css("background-color", hoverColor);
+                    $("#container").append(newBox);
+                }
+            }, ".box");
+        });
+    </script>
+</body>
+</html>
